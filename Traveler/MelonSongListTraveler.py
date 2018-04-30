@@ -4,6 +4,8 @@ from Scrapper.MelonSongListScrapper import MelonSongListScrapper
 
 from Traveler.Traveler import Traveler
 
+from Manager.ThreadManager import ThreadManager
+
 
 class MelonSongListTraveler(Traveler):
 

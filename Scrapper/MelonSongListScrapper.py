@@ -10,6 +10,8 @@ import utils
 
 from Scrapper.Scrapper import Scrapper
 
+from Manager.ThreadManager import ThreadManager
+
 
 class MelonSongListScrapper(Scrapper):
 
@@ -62,20 +64,25 @@ class MelonSongListScrapper(Scrapper):
                 success_counter = 0
                 failed_counter = 0
 
-                for data in a:
-                    song_data = {}
-                    song_data['artist_id'] = self.artist_id
-                    song_data['song_id'] = utils.extract_numbers(data['href'])[0]
+                if len(a) > 0:
+                    thread_manager = ThreadManager(a, 5)
 
-                    scrapper = MelonLyricScrapper()
-                    song_data['song_info'] = scrapper.scrapping(song_data['song_id'])
+                    def target_method(thread_id, data):
+                        song_data = {}
+                        song_data['artist_id'] = self.artist_id
+                        song_data['song_id'] = utils.extract_numbers(data['href'])[0]
 
-                    if song_data['song_info'] is None:
-                        failed_counter += 1
-                        continue
+                        scrapper = MelonLyricScrapper()
+                        song_data['song_info'] = scrapper.scrapping(song_data['song_id'])
 
-                    success_counter += 1
-                    result['data'].append(song_data)
+                        if song_data['song_info'] is None:
+                            #failed_counter += 1
+                            return
+
+                        #success_counter += 1
+                        result['data'].append(song_data)
+                    thread_manager.start_threads(target_method=target_method)
+
                 result['success'] = success_counter
                 result['fail'] = failed_counter
 
