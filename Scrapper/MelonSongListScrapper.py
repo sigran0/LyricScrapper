@@ -51,10 +51,10 @@ class MelonSongListScrapper(Scrapper):
             result['data'] = []
 
             try:
-                time.sleep(1)
+                time.sleep(2)
                 res = WebDriverWait(self.driver, 10)\
                     .until(EC.presence_of_element_located((By.CSS_SELECTOR, '#frm')))
-
+                #   TODO 아마  이 부분을 따로 Traveler를 만들어야 할 것같다.
                 html = res.get_attribute('innerHTML')
 
                 soup = BeautifulSoup(html, 'html.parser')
@@ -65,7 +65,7 @@ class MelonSongListScrapper(Scrapper):
                 failed_counter = 0
 
                 if len(a) > 0:
-                    thread_manager = ThreadManager(a, 5)
+                    thread_manager = ThreadManager(a, 10)
 
                     def target_method(thread_id, data):
                         song_data = {}

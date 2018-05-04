@@ -37,13 +37,24 @@ class MelonRelatedArtistScrapper(Scrapper):
             result = set()
 
             for wrap in wrap_list:
+                gubun_object = wrap.select('ul > li > div > div > dl > dd.gubun')
                 a_list = wrap.select('ul > li > div > div > dl > dt > a')
 
-                for a in a_list:
-                    artist_id = utils.extract_numbers(a['href'])[0]
-                    result.add(artist_id)
-            return result
+                for c, a in enumerate(a_list):
+                    gubun_string = gubun_object[c].text.strip()
+                    gubuns = gubun_string.split('/')
 
+                    if len(gubuns) > 2:
+                        region = gubuns[0]
+                        sex = gubuns[1]
+                        group_type = gubuns[2]
+
+                        if region == '대한민국':
+                            _artist_id = utils.extract_numbers(a['href'])[0]
+                            print(_artist_id, region, sex, group_type)
+                            result.add(_artist_id)
+
+            return result
         except requests.exceptions.Timeout as e:
             # print(self.emit_error_message() % (song_id))
             return None
@@ -54,5 +65,5 @@ class MelonRelatedArtistScrapper(Scrapper):
             # print(self.emit_error_message() % (song_id))
             return None
         except IndexError as e:
-            # print(self.emit_error_message() % (song_id))
+            #print(self.emit_error_message() % (song_id))
             return None
