@@ -51,7 +51,7 @@ class MelonRelatedArtistScrapper(Scrapper):
 
                         if region == '대한민국':
                             _artist_id = utils.extract_numbers(a['href'])[0]
-                            print(_artist_id, region, sex, group_type)
+                            # print(_artist_id, region, sex, group_type)
                             result.add(_artist_id)
 
             return result

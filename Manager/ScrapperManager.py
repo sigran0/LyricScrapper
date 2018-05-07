@@ -1,6 +1,5 @@
 
 from Manager.DriverManager import DriverManager
-from Manager.ThreadManager import ThreadManager
 from Manager.DatabaseManager import DBM
 from Traveler.MelonSongListTraveler import MelonSongListTraveler
 from Traveler.MelonRelatedArtistTraveler import MelonRelatedArtistTraveler

@@ -3,6 +3,8 @@ import time
 import utils
 from Manager.ScrapperManager import ScrapperManager
 
+sys.setrecursionlimit(20000)
+
 useage = 'python run.py artist_size start_artist_id'
 
 if len(sys.argv) != 3:
