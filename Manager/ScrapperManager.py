@@ -36,7 +36,11 @@ class ScrapperManager:
             self.failed_counter += datas['fail']
 
             for data in datas['data']:
-                self.dbm.insert(data)
+                result = self.dbm.insert_song(data)
+
+                if result is not True:
+                    print('Server Error!')
+
             print(' > [{}/{}]success : {}, fail : {}'.format(counter, len(self.artist_id_list), self.success_counter, self.failed_counter))
 
         print(' > complete processing, closing driver')

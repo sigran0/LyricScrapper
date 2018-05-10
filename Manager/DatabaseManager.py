@@ -1,14 +1,13 @@
-from pymongo import MongoClient
+from Manager.RequestManager import RequestManager
+
 
 class DBM:
 
     def __init__(self):
-        self.client = MongoClient()
-        self.db = self.client.lyricdb
-        self.song_datas = self.db.song_data
+        self.request_manager = RequestManager()
 
-    def insert(self, data):
-        try:
-            self.song_datas.insert(data)
-        except:
-            print('insert failed')
+    def insert_song(self, data):
+        self.request_manager.set_target_url('songs')
+        result = self.request_manager.post(data)
+
+        return result
